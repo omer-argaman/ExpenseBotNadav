@@ -9,7 +9,10 @@ when business logic changes.
 """
 
 import logging
+import os
+import threading
 from datetime import time as dt_time
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from telegram.ext import (
     Application,
@@ -38,6 +41,27 @@ logging.basicConfig(
     level=logging.INFO,
 )
 logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# Minimal HTTP server — keeps Render (Web Service) happy by binding to PORT
+# ---------------------------------------------------------------------------
+
+class _HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+    def log_message(self, *args):
+        pass  # suppress noisy access logs
+
+
+def _start_health_server() -> None:
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(("0.0.0.0", port), _HealthHandler)
+    logger.info(f"Health server listening on port {port}")
+    server.serve_forever()
 
 
 async def _post_init(application: Application) -> None:
@@ -82,5 +106,6 @@ def create_app() -> Application:
 
 
 if __name__ == "__main__":
+    threading.Thread(target=_start_health_server, daemon=True).start()
     logger.info("Starting bot...")
     create_app().run_polling()
