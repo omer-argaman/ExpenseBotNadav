@@ -1,89 +1,124 @@
-# Category map: canonical category name -> list of keywords that trigger it.
-# Keys must exactly match the row names in column A of the Google Sheet.
-# Keywords are matched case-insensitively.
+"""
+category_map.py — Category keyword mapping and broad category groupings.
 
-CATEGORY_MAP = {
+CATEGORY_MAP : keyword → canonical category name (as it appears in column A of the sheet)
+BROAD_CATEGORIES : section name → list of sub-category names (order matches the sheet)
+"""
+
+CATEGORY_MAP: dict[str, list[str]] = {
+    # Income
+    "Salary": ["Salary", "Salart", "Calary"],
+    "Agaf Hashikom": ["Agaf", "agaf", "shikom", "shikum", "shikumi", "shikomi", "agaf hashikom", "agaf hashikum"],
+    "Miloim": ["Miloim", "Miluim", "miluim", "miloim"],
+    "Avtala": ["avtala", "Avtala"],
+    "Extra": ["extra", "Extra", "Xtra", "Money", "Extra money", "plus", "+"],
+
+    # Savings
+    "Vacation Fund": ["vacation fund", "vacation saving", "vacation savings", "vacasion savings"],
+    "Transfer to Savings": ["savings", "saving", "ibi"],
+
+    # Home
+    "Rent": ["rent", "lease", "apartment fee"],
+    "Electricity": ["electricity", "electric", "power", "energy", "utility"],
+    "Gas": ["gas"],
+    "Water": ["water", "water bill"],
+    "Property Tax": ["Property Tax", "Tax", "Arnona"],
+    "Internet": ["internet", "wifi", "network"],
+    "House Committee": ["committee", "house committee", "vaad", "vahad", "vaad bait"],
+    "Maintenance": ["maintenance", "improvement", "repair", "fix", "home", "flowers", "flower", "upgrade", "repairs"],
+    "Phone Bill": ["Phone", "phone bill"],
 
     # Transportation
+    "Fuel": ["Fuel", "diesel", "delek"],
     "Public Transportation": [
         "train", "taxi", "bus", "metro", "tram", "cab", "subway", "ride",
-        "public", "transport",
+        "public", "transport", "bird", "lime", "tahbatz", "moovit", "movit", "movite",
     ],
-    "Fuel":         ["fuel", "petrol", "diesel"],
-    "Parking":      ["parking", "garage", "space", "charging", "park"],
+    "Parking": ["parking", "pango", "cellopark", "cello", "hanaya"],
     "Other (Trans)": [
-        "transportation other", "other transportation", "other trans",
-        "Other (Trans)", "Other Trans",
-    ],
-
-    # Home Expenses
-    "Rent":         ["rent", "lease", "apartment fee", "monthly payment", "mortgage"],
-    "Electricity":  ["electricity", "electric", "power", "energy", "bill", "utility"],
-    "Gas/Oil":      ["gas", "oil", "heating"],          # "fuel" lives in Fuel to avoid conflict
-    "Water":        ["water", "sewer", "trash", "garbage", "utilities", "waste"],
-    "Property Tax": ["Property Tax", "Tax", "Arnona"],
-    "Internet":     ["internet", "wifi", "broadband", "net", "phone"],
-    "House Committee": ["committee", "house committee", "hoa", "maintenance fee"],
-    "Maintenance/Improvements": [
-        "maintenance", "improvement", "repair", "fix", "home",
-        "flowers", "flower", "upgrade", "repairs",
+        "transportation other", "car insurance", "test", "car test", "garage", "musah", "car repair", "car",
     ],
 
     # Daily Living
-    "Groceries":    ["groceries", "supermarket", "market", "super", "store", "shopping"],
-    "Coffee":       ["coffee", "latte", "espresso", "cappuccino", "brew", "americano", "mocha", "cafe"],
-    "Dining Out":   ["dining", "restaurant", "meal", "breakfast", "lunch", "dinner", "eat",
-                     "takeout", "delivery",  "food", "wolt", "walt"],
-    "Beer / Wine":  ["beer", "wine", "alcohol", "bar", "cocktail", "drink", "pub", "bear", "vodka", "whiskey", "liquor"],
+    "Groceries": ["groceries", "supermarket", "market", "super", "store", "ampm", "victory"],
+    "Coffee": ["coffee", "latte", "espresso", "cappuccino", "brew", "americano", "mocha", "cafe"],
+    "Dinning Out": [
+        "dining", "restaurant", "meal", "breakfast", "lunch", "dinner", "eat", "food",
+        "takeout", "delivery", "wolt", "walt", "misada", "dinning", "dinning out", "dining out",
+    ],
+    "Beer / Wine": [
+        "beer", "wine", "alcohol", "bar", "cocktail", "drink", "vodka",
+        "whiskey", "liquor", "birra", "bira", "pub",
+    ],
+    "Cloths": [
+        "cloths", "shirt", "pants", "dress", "clothes", "cloth", "tshirt",
+        "t-shirt", "t shirt", "clothe", "clothse",
+    ],
+    "Haircut": ["haircut", "hair cut"],
     "Other (Daily)": [
-        "daily living other", "other daily living", "haircut",
-        "miscellaneous living", "Other (Daily)", "Other Daily", "other", "cosmetics", "laser",
-        "cloths", "shirt", "pants", "dress", "clothes", "cloth", "tshirt", "t-shirt", "t shirt",
-        "personal", "gym", "personal care",
+        "daily living other", "other daily living", "Other (Daily)", "Other Daily",
+        "other", "cosmetics", "personal", "gym", "personal care", "wedding",
     ],
 
-    # Entertainment and Recreation
+    # Other
+    "Vacation": ["vacation", "holiday", "trip", "travel", "hotel", "flight", "resort"],
     "Entertainment": ["entertainment", "movie", "theater", "show", "concert", "game", "festival", "fun", "games"],
-    "Vacation":      ["vacation", "holiday", "trip", "travel", "hotel", "flight", "beach", "resort"],
+    "Health": [
+        "health", "doctor", "medicine", "hospital", "clinic", "checkup", "medical", "healthcare",
+        "superpharm", "superfarm", "suplaments", "vaitamins", "vitamins", "vatimins",
+    ],
 
-    # Education and Healthcare
-    "Education":    ["books", "courses", "education", "school"],
-    "Health":       [
-        "health", "doctor", "medicine", "hospital", "clinic", "checkup",
-        "pharm", "superpharm", "super pharm", "super-pharm", "pharmacy",
-        "medical", "healthcare",
-    ],                                                 # "insurance" lives in Life Insurance to avoid conflict
-
-    # Savings and Insurance
-    "Life Insurance":   ["life insurance", "policy", "premium", "coverage", "car insurance", "health insurance"],
-    "Emergency Fund":   ["emergency fund", "savings", "rainy day"],
+    # Insurance
+    "Life Insurance": ["life insurance", "life inshurance"],
+    "Health Insurance": ["health insurance", "health inshurance"],
 
     # Personal
-    "Omer": ["omer"],
-    "Gil":  ["gil"],
+    "Moran": ["moran"],
+    "Nadav": ["nadav"],
+    "Fighter": ["fighter"],
 }
 
-
-# How categories are grouped into broad sections.
-# Keys must match the broad-section header names in column A of the Google Sheet
-# (case-insensitive match at runtime).
-# Subcategory list order and count must reflect the actual sheet layout so
-# /summary can correctly locate each section's total row.
-BROAD_CATEGORIES = {
+# Broad categories used by /summary and the monthly report.
+# Only sections that appear in the Google Sheet as summary rows are listed here.
+BROAD_CATEGORIES: dict[str, list[str]] = {
     "Home": [
-        "Rent", "Mortgage",  # Mortgage row exists in the sheet; not loggable via bot
-        "Electricity", "Gas/Oil", "Water",
-        "Property Tax", "Internet", "House Committee", "Maintenance/Improvements",
+        "Rent",
+        "Electricity",
+        "Gas",
+        "Water",
+        "Property Tax",
+        "Internet",
+        "House Committee",
+        "Maintenance",
+        "Phone Bill",
     ],
     "Transportation": [
-        "Public Transportation", "Fuel", "Parking", "Other (Trans)",
+        "Fuel",
+        "Public Transportation",
+        "Parking",
+        "Other (Trans)",
     ],
     "Daily Living": [
-        "Groceries", "Coffee", "Dining Out", "Beer / Wine", "Other (Daily)",
+        "Groceries",
+        "Coffee",
+        "Dinning Out",
+        "Beer / Wine",
+        "Cloths",
+        "Haircut",
+        "Other (Daily)",
     ],
     "Other": [
-        "Entertainment", "Vacation", "Health", "Life Insurance",
-        # Add "Education" and/or "Emergency Fund" here if they appear under this
-        # section header in your sheet.
+        "Vacation",
+        "Entertainment",
+        "Health",
     ],
 }
+
+# ---------------------------------------------------------------------------
+# Keyword index — built once at import time, used by the parser
+# ---------------------------------------------------------------------------
+
+KEYWORD_INDEX: dict[str, str] = {}
+for _category, _keywords in CATEGORY_MAP.items():
+    for _kw in _keywords:
+        KEYWORD_INDEX[_kw.lower()] = _category
