@@ -14,8 +14,8 @@ load_dotenv()
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 # Google Sheets
-SPREADSHEET_ID          = os.getenv("GOOGLE_SPREADSHEET_ID")
-GOOGLE_CREDENTIALS_JSON = os.getenv("GOOGLE_CREDENTIALS_JSON")
+SPREADSHEET_ID          = os.getenv("SPREADSHEET_ID")
+GOOGLE_CREDENTIALS_JSON = os.getenv("GOOGLE_CREDENTIALS")
 
 # Path to the expense history file used by /delete.
 # Kept at the project root so it survives folder refactors.
