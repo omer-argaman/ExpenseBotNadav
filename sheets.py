@@ -89,15 +89,21 @@ class LogResult:
 
 
 # ---------------------------------------------------------------------------
-# API connection
+# API connection — cached singleton to avoid per-request memory growth
 # ---------------------------------------------------------------------------
 
+_service_cache = None
+
 def _build_service():
+    global _service_cache
+    if _service_cache is not None:
+        return _service_cache
     if not GOOGLE_CREDENTIALS_JSON:
         raise EnvironmentError("GOOGLE_CREDENTIALS environment variable is not set.")
     creds_info = json.loads(GOOGLE_CREDENTIALS_JSON)
     creds = service_account.Credentials.from_service_account_info(creds_info, scopes=SCOPES)
-    return build("sheets", "v4", credentials=creds)
+    _service_cache = build("sheets", "v4", credentials=creds)
+    return _service_cache
 
 
 # ---------------------------------------------------------------------------
